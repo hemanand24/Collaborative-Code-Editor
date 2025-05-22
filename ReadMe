@@ -62,7 +62,7 @@ Supported Languages & Docker Images
 | Python	   |   python:3.11	  |   .py	       |   python /code/filename.py                             |
 | C++	           |   gcc	          |   .cpp	       |   g++ /code/filename.cpp -o /code/a.out && /code/a.out |
 | Java	           |   openjdk:17	  |   .java	       |   cd /code && javac Main.java && java Main             |
-|────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────|
+|───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────|
 
 Backend Setup
 
