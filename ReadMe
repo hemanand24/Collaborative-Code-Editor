@@ -1,0 +1,180 @@
+Collaborative Code Editor
+
+A real-time collaborative code editor web application with shared code space, shared language selection, and shared output display using React, Socket.IO, Express.js, and Docker. Users can write code together, select the programming language, and run the code with output visible to all participants instantly.
+
+
+Features
+
+    Shared Code Space: All connected users see real-time updates to the code editor.
+
+    Shared Language Selection: The selected programming language is synchronized across all clients.
+
+    Shared Output: The output of the executed code is shared and visible to all users.
+
+    Supports JavaScript, Python, C++, and Java.
+
+    Runs code securely inside Docker containers on the backend.
+
+    Simple, clean UI with Monaco Editor integration for code editing.
+
+
+Technologies Used
+
+    Frontend: React, Socket.IO-client, Monaco Editor
+
+    Backend: Node.js, Express.js, Socket.IO, Dockerode (Docker API client for Node.js)
+
+    Docker: Runs user code safely inside isolated containers.
+
+
+Setup and Installation
+Prerequisites
+
+    Node.js (v14+ recommended)
+
+    Docker installed and running
+
+    npm or yarn package manager
+
+
+File Structure
+
+/
+|-- backend/
+|    |-- server.js
+|-- frontend/
+|    |-- src/
+|        |-- App.jsx
+|        |-- MonacoEditor.jsx
+|        |-- App.css
+|-- README.md
+
+/
+├── backend/
+│   └── server.js
+├── frontend/
+│   ├── index.html
+│   └── src/
+│       ├── App.jsx
+│       ├── MonacoEditor.jsx
+│       ├── main.jsx
+│       └── App.css
+├── README.md
+
+
+Supported Languages & Docker Images
+
+Language	  Docker Image	     File Extension	      Command to Run
+JavaScript	  node:18	         .js	              node /code/filename.js
+Python	      python:3.11	     .py	              python /code/filename.py
+C++	          gcc	             .cpp	              g++ /code/filename.cpp -o /code/a.out && /code/a.out
+Java	      openjdk:17	     .java	              cd /code && javac Main.java && java Main
+
+
+Backend Setup
+
+    Clone the repository (or create your project directory).
+
+    Navigate to the backend folder (or project root if combined):
+
+        cd backend
+
+    Install dependencies:
+
+        npm install express http cors socket.io body-parser dockerode
+    
+    Pull supported language images within the docker
+
+        docker pull node:18
+
+        docker pull python:3.11
+
+        docker pull gcc
+
+        docker pull openjdk:17
+
+    Run the backend server:
+
+        node server.js
+    
+    This will start the server on http://localhost:4000.
+
+
+Frontend Setup
+
+    Navigate to the frontend folder (or project root if combined):
+
+        cd frontend
+
+    Install dependencies:
+
+        npm install react react-dom socket.io-client monaco-editor react-monaco-editor
+
+    Replace the now created App.jsx, App.css, main.jsx and index.html with the files provided in the project repository of frontend. 
+    
+    Start the React app:
+
+        npm run dev
+
+    Your React app will be available at http://localhost:3000.
+
+
+How It Works
+
+Shared Code and Language
+
+    When a user types or changes the code, the change is emitted via Socket.IO (code_change) to the backend server.
+
+    The server broadcasts these changes to all other connected clients.
+
+    Similarly, when the language is changed via dropdown, the new language is emitted (language_change) and broadcasted to synchronize all users.
+
+Running Code
+
+    When the "Run" button is clicked:
+
+        The current code and selected language are sent to the backend /run API.
+
+        The backend writes the code to a file, spins up a Docker container with the appropriate image, executes the code inside the container, and streams back the output.
+
+        The output is then broadcast to all connected clients to display in the shared output area.
+
+
+Important Notes
+
+    Docker is required on the host machine to run the user code safely.
+
+    Java code must contain a public class Main in the Main.java file for execution.
+
+    Currently, manual stdin input during code execution is not supported.
+
+    The app uses basic error handling to report unsupported languages or execution errors.
+
+
+Usage
+
+    Open the React app in multiple browser tabs or different devices.
+
+    Edit the code in the Monaco editor — all collaborators will see changes live.
+
+    Change the language from the dropdown; the selection syncs across users.
+
+    Press "Run" to execute the code — the output appears for everyone.
+
+
+Future Improvements
+
+    Add support for manual input (stdin) during execution.
+
+    Add user authentication and session management.
+
+    Improve UI/UX with notifications and more editor features.
+
+    Add code formatting and linting.
+
+    Store sessions and code history.
+
+
+License
+
+This project is open source and free to use.
