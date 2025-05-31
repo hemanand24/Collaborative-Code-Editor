@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import MonacoEditor from "./MonacoEditor";
-import './App.css';
+import "./App.css";
 
 const socket = io("http://localhost:4000");
 
@@ -20,7 +20,7 @@ export default function App() {
   useEffect(() => {
     socket.on("code_change", setCode);
     socket.on("language_change", setLanguage);
-    socket.on("code_output", setOutput);  // Listen for output
+    socket.on("code_output", setOutput);
 
     return () => {
       socket.off("code_change");
@@ -47,42 +47,48 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, language }),
       });
-      // Don't set output here - it comes via socket event
     } catch (err) {
       setOutput("Error connecting to server.");
     }
   };
 
   return (
-    <div className="container">
-      <h1 className="title">Collaborative Code Editor</h1>
+  <div className="container">
+    <h1 className="title">⚡ Collaborative Code Editor</h1>
 
-      <div className="toolbar">
-        <label htmlFor="language-select" className="label">Language:</label>
-        <select
-          id="language-select"
-          value={language}
-          onChange={handleLanguageChange}
-          className="select"
-        >
-          {languages.map((lang) => (
-            <option key={lang.value} value={lang.value}>
-              {lang.label}
-            </option>
-          ))}
-        </select>
+    <div className="toolbar">
+      <label htmlFor="language-select" className="label">Language:</label>
+      <select
+        id="language-select"
+        value={language}
+        onChange={handleLanguageChange}
+        className="select"
+      >
+        {languages.map((lang) => (
+          <option key={lang.value} value={lang.value}>
+            {lang.label}
+          </option>
+        ))}
+      </select>
 
-        <button className="run-button" onClick={handleRunCode}>
-          Run
-        </button>
+      <button className="run-button" onClick={handleRunCode}>
+        ▶ Run
+      </button>
+    </div>
+
+    <div className="main">
+      <div className="editor-container">
+        <MonacoEditor
+          code={code}
+          onChange={handleCodeChange}
+          language={language}
+        />
       </div>
 
-      <MonacoEditor code={code} onChange={handleCodeChange} language={language} />
-
       <div className="output-container">
-        <h2>Output:</h2>
+        <h2>🖨️ Output:</h2>
         <pre className="output">{output}</pre>
       </div>
     </div>
-  );
-}
+  </div>
+);}

@@ -7,6 +7,7 @@ export default function MonacoEditor({ code, onChange, language }) {
       language={language}
       value={code}
       onChange={(value) => onChange(value)}
+      theme="vs-dark"
       options={{
         minimap: { enabled: false },
         fontSize: 16,
